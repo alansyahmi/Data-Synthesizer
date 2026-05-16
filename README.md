@@ -1,6 +1,6 @@
-# 📊 Data Synthesizer Pro
+# 📊 Data Synthesizer
 
-A powerful "Research Simulation" platform initially built for university-level academic research purposes. This tool automates the process of generating and submitting synthetic persona data to Google Forms for research validation and testing.
+A powerful "Research Simulation" platform was initially built for university-level academic research purposes. This tool automates the process of generating and submitting synthetic persona data to Google Forms for research validation and testing.
 
 ## 🚀 Key Features
 - **Project-Based Workspaces**: Manage multiple research campaigns with unique URLs.
