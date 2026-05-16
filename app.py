@@ -5,7 +5,7 @@ import json
 from engine import RiggingEngine
 
 # Page Config
-st.set_page_config(page_title="Data Synthesizer Pro", page_icon="🏢", layout="wide")
+st.set_page_config(page_title="Data Synthesizer", page_icon="🏢", layout="wide")
 
 # Custom CSS
 st.markdown("""
