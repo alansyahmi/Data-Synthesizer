@@ -1,0 +1,29 @@
+{
+    "UMS Student (Sabahan)": {
+        "names": ["Bisinong", "Aling", "Jali", "Petrus", "Fiona", "Dayang", "Awangku"],
+        "wishes": [
+            "Sia wish sia tahu bas UMS ni selalu lambat bah.",
+            "Kalaulah saya tahu tekanan air kat hostel ni macam ni.",
+            "Wi-Fi UMS ni macam siput bah."
+        ],
+        "concerns": [
+            "Risau kalau AI ni tak faham dialek Sabahan kita.",
+            "Sia takut AI ni ada bias kat developer besar bah."
+        ],
+        "age_range": ["18–24", "25–34"],
+        "income_range": ["RM1,500–RM2,999", "RM3,000–RM5,999"]
+    },
+    "General Malaysian": {
+        "names": ["Ahmad", "Siti", "Tan", "Wong", "Muthu"],
+        "wishes": [
+            "I wish I had known the true maintenance costs.",
+            "I wish I had checked the peak hour traffic."
+        ],
+        "concerns": [
+            "Concerned about data privacy.",
+            "Worry about AI accuracy."
+        ],
+        "age_range": ["25–34", "35–44", "45–54"],
+        "income_range": ["RM3,000–RM5,999", "RM6,000–RM9,999"]
+    }
+}

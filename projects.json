@@ -1,0 +1,451 @@
+{
+    "Default Project": {
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSdZMcvWbSoSYQ5IPG0rtm5T95zpXfO0mK83_flNY-ZZYs_beQ/viewform",
+        "field_map": {
+            "entry.1474909078": {
+                "label": "Age group",
+                "options": [
+                    "Option 1",
+                    "Option 2",
+                    "Option 3",
+                    "Option 4"
+                ],
+                "required": 0
+            },
+            "entry.520014965": {
+                "label": "Which state are you from?",
+                "options": [
+                    "Sabah",
+                    "Sarawak",
+                    "Johor",
+                    "Selangor",
+                    "KL",
+                    "Perak"
+                ],
+                "required": 0
+            },
+            "entry.337840995": {
+                "label": "Your fav drinks",
+                "options": [
+                    "Plain water",
+                    "Sirap",
+                    "Milo",
+                    "Teh O",
+                    "Neslo"
+                ],
+                "required": 0
+            },
+            "entry.1498479631": {
+                "label": "Rate us",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 0
+            },
+            "entry.472275439": {
+                "label": "Describe your feelings now",
+                "options": [],
+                "required": 0
+            }
+        },
+        "personas": {
+            "Test 1": {
+                "entry.1474909078": {
+                    "enabled": true,
+                    "values": [
+                        "Option 1",
+                        "Option 2"
+                    ]
+                },
+                "entry.520014965": {
+                    "enabled": true,
+                    "values": [
+                        "Selangor",
+                        "Sabah",
+                        "Sarawak"
+                    ]
+                },
+                "entry.337840995": {
+                    "enabled": true,
+                    "values": [
+                        "Plain water"
+                    ]
+                },
+                "entry.1498479631": {
+                    "enabled": true,
+                    "values": [
+                        "3",
+                        "4",
+                        "5"
+                    ]
+                },
+                "entry.472275439": {
+                    "enabled": true,
+                    "values": [
+                        "wowowowow",
+                        "jajajaajaj",
+                        "helooo",
+                        "hihihih",
+                        "hohohohoho",
+                        "wiiiii"
+                    ]
+                }
+            }
+        },
+        "pages": 0
+    },
+    "re:AI": {
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSdHfDgHIu1FcGgLoH8LRwyyQRFvS_KwJDGtMcn6OcJhMgPDUA/viewform",
+        "field_map": {
+            "whatisyourcurrentrel": {
+                "id": "entry.1789545951",
+                "label": "What is your current relationship with property?",
+                "options": [
+                    "I am actively looking to buy a home",
+                    "I own property and may buy again",
+                    "I am a property investor",
+                    "I work in real estate (agent/developer/bank)",
+                    "I have no current interest in property"
+                ]
+            },
+            "whatisyouragerange": {
+                "id": "entry.652391570",
+                "label": "What is your age range?",
+                "options": [
+                    "Under 25",
+                    "25\u201334",
+                    "35\u201344",
+                    "45\u201354",
+                    "55 and above"
+                ]
+            },
+            "whichstatedoyoucurre": {
+                "id": "entry.272108027",
+                "label": "Which state do you currently live in?",
+                "options": [
+                    "Johor",
+                    "Kedah",
+                    "Kelantan",
+                    "Melaka",
+                    "Negeri Sembilan",
+                    "Pahang",
+                    "Perak",
+                    "Perlish",
+                    "Pulau Pinang",
+                    "Sabah",
+                    "Sarawak",
+                    "Selangor",
+                    "Terengganu",
+                    "W.P. Kuala Lumpur",
+                    "W.P. Labuan",
+                    "W.P. Putrajaya"
+                ]
+            },
+            "whatisyourapproximat": {
+                "id": "entry.575619974",
+                "label": "What is your approximate household income per month?",
+                "options": [
+                    "Below RM3,000",
+                    "RM3,000\u2013RM5,999",
+                    "RM6,000\u2013RM9,999",
+                    "RM10,000\u2013RM14,999",
+                    "RM15,000 and above"
+                ]
+            },
+            "whensearchingforprop": {
+                "id": "entry.70304254",
+                "label": "When searching for property, how overwhelmed do you feel by\nthe amount of information available?",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ]
+            },
+            "haveyoueverfeltunsur": {
+                "id": "entry.118530096",
+                "label": "Have you ever felt unsure whether a property developer could be trusted?",
+                "options": [
+                    "Yes, it was a major concern",
+                    "Yes, but it was a minor concern",
+                    "No, I generally trust developers",
+                    "I've never thought about it"
+                ]
+            },
+            "whatareyourbiggestfe": {
+                "id": "entry.1804506916",
+                "label": "What are your biggest fears when buying property in Malaysia?",
+                "options": [
+                    "Developer abandoning the project (\"sick project\")",
+                    "Overpaying for the property",
+                    "Legal complications (title, strata, bumiputera lot)",
+                    "Hidden defects or construction quality issues",
+                    "Neighbourhood declining in value after purchase",
+                    "Being misled by the sales agent",
+                    "Not knowing if the location will grow in value",
+                    "Flood or environmental risk"
+                ]
+            },
+            "haveyouorsomeoneyouk": {
+                "id": "entry.1484755690",
+                "label": "Have you or someone you know ever been affected by a\nproblematic property developer or project?",
+                "options": [
+                    "Yes, personally affected",
+                    "Yes, someone I know was affected",
+                    "No, but I've heard about it",
+                    "No, never"
+                ]
+            },
+            "beforebuyingproperty": {
+                "id": "entry.172347867",
+                "label": "Before buying property, how much time do you typically spend researching?",
+                "options": [
+                    "Less than 1 month",
+                    "1\u20133 months",
+                    "3\u20136 months",
+                    "6\u201312 months",
+                    "More than a year",
+                    "I have not bought property yet"
+                ]
+            },
+            "howusefulwouldthisto": {
+                "id": "entry.767032109",
+                "label": "  How useful would this tool be for your property decisions?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ]
+            },
+            "whichofthesereaifeat": {
+                "id": "entry.124504836",
+                "label": " Which of these re:AI features interests you the most? (Pick top 2)  ",
+                "options": [
+                    "Reliability Score for developers (flags history of delays, abandoned projects)",
+                    "Fair Value Estimate (AI-adjusted price based on verified data, not just market average)",
+                    "Neighbourhood Growth Predictor (AI spots up-and-coming areas before prices rise)",
+                    "Explainable AI \u2014 every score comes with a plain-English reason",
+                    "Community Sentiment Feed (what real residents say, not marketing materials)"
+                ]
+            },
+            "whatwouldmakeyoumost": {
+                "id": "entry.712177088",
+                "label": "What would make you MOST trust an AI property tool? (Pick up to 2)  ",
+                "options": [
+                    "It explains its reasoning clearly",
+                    "It uses official government data (NAPIC, CCM, court records)",
+                    "It has been endorsed by a university or research body",
+                    "Real users have reviewed and validated it",
+                    "A licensed property professional backs it",
+                    "I would not trust an AI for property decisions"
+                ]
+            },
+            "ifreaiwereavailablet": {
+                "id": "entry.1796075674",
+                "label": "If re:AI were available today, how likely would you be to use it before your next property decision?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ]
+            },
+            "wouldyoubewillingtop": {
+                "id": "entry.901685938",
+                "label": "Would you be willing to pay for access to re:AI?  ",
+                "options": [
+                    "Yes, I'd pay for a one-time report (per property)",
+                    "Yes, I'd pay a monthly subscription for unlimited access",
+                    "Only if my real estate agent provided it as part of their service (B2B model)",
+                    "No, I'd only use it if it were free",
+                    "Not sure"
+                ]
+            },
+            "inyourownwordswhatis": {
+                "id": "entry.1140764828",
+                "label": "In your own words, what is the ONE thing you wish you had known before making (or considering) a property purchase in Malaysia?  ",
+                "options": []
+            },
+            "isthereanythingabout": {
+                "id": "entry.722088563",
+                "label": "Is there anything about AI-powered property tools that concerns you?  ",
+                "options": []
+            },
+            "ifwebuildreaiwouldyo": {
+                "id": "entry.650125771",
+                "label": "If we build re:AI, would you like to be one of our first beta testers?  ",
+                "options": [
+                    "Yes \u2014 notify me when it launches",
+                    "Yes \u2014 I'd like to give feedback during development",
+                    "No, but keep up the good work",
+                    "No"
+                ]
+            },
+            "leaveyouremailifyoud": {
+                "id": "entry.1035970437",
+                "label": "Leave your email if you'd like us to contact you.  ",
+                "options": []
+            }
+        },
+        "personas": {
+            "Young First-time Buyers": {
+                "whatisyourcurrentrel": {
+                    "enabled": true,
+                    "values": [
+                        "I am actively looking to buy a home"
+                    ]
+                },
+                "whatisyouragerange": {
+                    "enabled": true,
+                    "values": [
+                        "25\u201334"
+                    ]
+                },
+                "whichstatedoyoucurre": {
+                    "enabled": true,
+                    "values": [
+                        "Johor",
+                        "Kedah",
+                        "Kelantan",
+                        "Melaka",
+                        "Negeri Sembilan",
+                        "Pahang",
+                        "Perak",
+                        "Perlish",
+                        "Pulau Pinang",
+                        "Sabah",
+                        "Sarawak",
+                        "Selangor",
+                        "Terengganu",
+                        "W.P. Kuala Lumpur",
+                        "W.P. Labuan",
+                        "W.P. Putrajaya"
+                    ]
+                },
+                "whatisyourapproximat": {
+                    "enabled": true,
+                    "values": [
+                        "RM3,000\u2013RM5,999"
+                    ]
+                },
+                "whensearchingforprop": {
+                    "enabled": true,
+                    "values": [
+                        "3",
+                        "4",
+                        "5"
+                    ]
+                },
+                "haveyoueverfeltunsur": {
+                    "enabled": true,
+                    "values": [
+                        "Yes, it was a major concern",
+                        "Yes, but it was a minor concern",
+                        "I've never thought about it"
+                    ]
+                },
+                "whatareyourbiggestfe": {
+                    "enabled": true,
+                    "values": [
+                        "Developer abandoning the project (\"sick project\")",
+                        "Hidden defects or construction quality issues",
+                        "Legal complications (title, strata, bumiputera lot)",
+                        "Overpaying for the property",
+                        "Being misled by the sales agent",
+                        "Flood or environmental risk"
+                    ]
+                },
+                "haveyouorsomeoneyouk": {
+                    "enabled": true,
+                    "values": [
+                        "No, but I've heard about it",
+                        "No, never"
+                    ]
+                },
+                "beforebuyingproperty": {
+                    "enabled": true,
+                    "values": [
+                        "3\u20136 months",
+                        "6\u201312 months",
+                        "More than a year",
+                        "I have not bought property yet"
+                    ]
+                },
+                "howusefulwouldthisto": {
+                    "enabled": true,
+                    "values": [
+                        "3",
+                        "4",
+                        "5"
+                    ]
+                },
+                "whichofthesereaifeat": {
+                    "enabled": true,
+                    "values": [
+                        "Reliability Score for developers (flags history of delays, abandoned projects)",
+                        "Fair Value Estimate (AI-adjusted price based on verified data, not just market average)",
+                        "Neighbourhood Growth Predictor (AI spots up-and-coming areas before prices rise)",
+                        "Explainable AI \u2014 every score comes with a plain-English reason",
+                        "Community Sentiment Feed (what real residents say, not marketing materials)"
+                    ]
+                },
+                "whatwouldmakeyoumost": {
+                    "enabled": true,
+                    "values": [
+                        "It explains its reasoning clearly",
+                        "It uses official government data (NAPIC, CCM, court records)",
+                        "It has been endorsed by a university or research body",
+                        "Real users have reviewed and validated it",
+                        "A licensed property professional backs it",
+                        "I would not trust an AI for property decisions"
+                    ]
+                },
+                "ifreaiwereavailablet": {
+                    "enabled": true,
+                    "values": [
+                        "4",
+                        "5"
+                    ]
+                },
+                "wouldyoubewillingtop": {
+                    "enabled": true,
+                    "values": [
+                        "Yes, I'd pay for a one-time report (per property)",
+                        "Only if my real estate agent provided it as part of their service (B2B model)",
+                        "Not sure"
+                    ]
+                },
+                "inyourownwordswhatis": {
+                    "enabled": true,
+                    "values": [
+                        "I wish I had known the true maintenance costs and sinking fund health."
+                    ]
+                },
+                "isthereanythingabout": {
+                    "enabled": true,
+                    "values": [
+                        "I worry that AI might be biased toward developers who provide more digital data."
+                    ]
+                },
+                "ifwebuildreaiwouldyo": {
+                    "enabled": true,
+                    "values": [
+                        "No, but keep up the good work"
+                    ]
+                },
+                "leaveyouremailifyoud": {
+                    "enabled": false,
+                    "values": []
+                }
+            }
+        }
+    }
+}
