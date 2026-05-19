@@ -1,0 +1,15 @@
+# Streamlit Secrets (Crucial Security)
+.streamlit/secrets.toml
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.env
+
+# Local data (optional but good practice for developer-specific testing)
+# projects_dev.json

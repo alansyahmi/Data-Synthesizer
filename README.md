@@ -25,6 +25,26 @@ A powerful "Research Simulation" platform was initially built for university-lev
    py -m streamlit run app.py
    ```
 
+## 🔒 Security & Secrets Management
+
+The platform utilizes Streamlit's native secret management (`st.secrets`) to manage private configurations and API credentials securely.
+
+1. **Local Secrets Configuration**:
+   A local configuration file has been created at `.streamlit/secrets.toml`. This file is explicitly ignored in `.gitignore` to prevent secret leaks.
+   
+2. **Database Path Configuration**:
+   Configure your database storage file path via secrets:
+   ```toml
+   PROJECTS_FILE = "projects.json"
+   ```
+
+3. **High-Fidelity AI Generation (Optional)**:
+   To enable realistic, context-aware AI text generation for academic research validation, obtain a Gemini API key from [Google AI Studio](https://aistudio.google.com/) and paste it into `.streamlit/secrets.toml`:
+   ```toml
+   GEMINI_API_KEY = "your-api-key"
+   ```
+   If no key is configured, the engine automatically and securely falls back to the local deterministic deterministic mock generator.
+
 ## 📖 How to Use
 1. **Setup**: Create a project and paste your Google Form `viewform` URL. Click "Analyze & Scrape."
 2. **Persona Lab**: Create a new persona. Select which questions to include and provide specific options or text templates for each.

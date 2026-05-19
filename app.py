@@ -16,6 +16,9 @@ st.markdown("""
     .debug-box { background-color: #1a1a1a; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 0.8em; color: #00ff00; border: 1px solid #333; }
     .persona-tag { background-color: #ff4b4b; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; margin-right: 5px; }
     .template-count { color: #888; font-size: 0.8em; }
+    .status-card { background-color: #1e2130; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #2d3142; }
+    .status-badge-green { background-color: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid #2ecc71; padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; display: inline-block; }
+    .status-badge-yellow { background-color: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid #f1c40f; padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; display: inline-block; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -35,6 +38,33 @@ with st.sidebar:
             if new_proj_input:
                 st.session_state.engine.create_project(new_proj_input)
                 st.rerun()
+                
+    st.markdown("---")
+    st.subheader("🤖 Engine Status")
+    api_key_set = False
+    try:
+        api_key_set = "GEMINI_API_KEY" in st.secrets and st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        pass
+
+    if api_key_set:
+        st.markdown(
+            '<div class="status-card">'
+            '<div class="status-badge-green">🟢 High-Fidelity Active</div>'
+            '<p style="font-size: 0.85em; color: #aaa; margin-top: 8px; margin-bottom: 0;">'
+            'Gemini 1.5 Flash is powered via secure secrets. Generating highly context-aware persona data.</p>'
+            '</div>',
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            '<div class="status-card">'
+            '<div class="status-badge-yellow">🟡 Local Fallback Active</div>'
+            '<p style="font-size: 0.85em; color: #aaa; margin-top: 8px; margin-bottom: 0;">'
+            'No Gemini API Key detected in st.secrets. Operating in secure deterministic local mock mode.</p>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
 # MAIN
 st.title(f"🚀 {active_project}")
