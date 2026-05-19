@@ -113,25 +113,74 @@ class RiggingEngine:
         except Exception as e:
             return False, f"Scrape Error: {str(e)}"
 
+    def parse_baseline_responses(self, file_content_bytes, file_name):
+        text = ""
+        try:
+            text = file_content_bytes.decode('utf-8')
+        except UnicodeDecodeError:
+            try:
+                text = file_content_bytes.decode('latin-1')
+            except Exception as e:
+                return False, f"Encoding error: {str(e)}"
+        
+        responses = []
+        if file_name.lower().endswith('.csv'):
+            import csv
+            import io
+            f = io.StringIO(text.strip())
+            reader = csv.reader(f)
+            rows = list(reader)
+            if not rows:
+                return False, "CSV is empty"
+            for row in rows:
+                row_vals = [cell.strip() for cell in row if cell.strip()]
+                if row_vals:
+                    responses.append(" | ".join(row_vals))
+        else: # txt
+            lines = text.split('\n')
+            responses = [line.strip() for line in lines if line.strip()]
+            
+        if len(responses) < 10:
+            return False, f"Too few baseline responses: Found {len(responses)}, minimum required is 10."
+            
+        if len(responses) > 50:
+            responses = responses[:50]
+            
+        return True, responses
+
+    def save_receipt(self, student_email, file_name, file_bytes):
+        import os
+        import time
+        os.makedirs("receipts", exist_ok=True)
+        timestamp = int(time.time())
+        clean_email = re.sub(r'[^a-zA-Z0-9@.]', '_', student_email)
+        clean_filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', file_name)
+        saved_name = f"{timestamp}_{clean_email}_{clean_filename}"
+        saved_path = os.path.join("receipts", saved_name)
+        with open(saved_path, 'wb') as f:
+            f.write(file_bytes)
+        return saved_path
+
     def save_persona(self, project_name, persona_name, response_mapping):
         self.projects[project_name]["personas"][persona_name] = response_mapping
         self.save_all()
 
-    def generate_persona(self, project_name, persona_name):
+    def generate_persona(self, project_name, persona_name, tier="Basic", baseline_responses=None, additional_context=""):
         proj = self.projects[project_name]
         field_map = proj["field_map"]
         persona_config = proj["personas"].get(persona_name, {})
         
-        # Check if Gemini API key is available in st.secrets
+        # Check if Gemini API key is available in st.secrets only if Premium is selected
         api_key = None
-        try:
-            import streamlit as st
-            api_key = st.secrets.get("GEMINI_API_KEY")
-        except Exception:
-            pass
+        if tier == "Premium":
+            try:
+                import streamlit as st
+                api_key = st.secrets.get("GEMINI_API_KEY")
+            except Exception:
+                pass
 
-        # If API key is available, use LLM to generate high-fidelity coherent responses
-        if api_key:
+        # If Premium tier and API key is available, use LLM to generate high-fidelity coherent responses
+        if tier == "Premium" and api_key:
             questions_specs = []
             for entry_id, info in field_map.items():
                 config = persona_config.get(entry_id, {})
@@ -149,14 +198,24 @@ class RiggingEngine:
                 questions_specs.append(spec)
 
             if questions_specs:
+                baseline_str = ""
+                if baseline_responses:
+                    baseline_str = "Here are some baseline real human responses to guide your textual responses:\n" + "\n".join([f"- {r}" for r in baseline_responses]) + "\n\n"
+                
+                context_str = ""
+                if additional_context:
+                    context_str = f"Additional study context/guidelines:\n{additional_context}\n\n"
+
                 prompt = (
                     f"You are a survey participant acting as the persona group: \"{persona_name}\".\n"
                     "Your task is to generate realistic, high-fidelity, coherent answers to the following survey questions.\n"
                     "Ensure that all answers are logically aligned with each other and fit the specified persona name naturally.\n\n"
+                    f"{context_str}"
+                    f"{baseline_str}"
                     "Instructions:\n"
                     "1. For questions with 'options', you MUST select one option from the list.\n"
                     "2. For questions with 'allowed_custom_values', you should select one of these custom values if possible.\n"
-                    "3. For text questions (no 'options' or 'allowed_custom_values'), write a realistic, short (1-3 sentences) response in the persona's voice.\n\n"
+                    "3. For text questions (no 'options' or 'allowed_custom_values'), write a realistic, short (1-3 sentences) response in the persona's voice, matching the style/tone of the baseline responses if provided.\n\n"
                     "Questions:\n"
                     f"{json.dumps(questions_specs, indent=2)}\n\n"
                     "Respond with a single JSON object mapping keys directly to your generated answer. "
@@ -207,33 +266,41 @@ class RiggingEngine:
                                 persona_data[entry_id] = val
                             else:
                                 # Fallback if specific entry is missing
-                                persona_data[entry_id] = self._fallback_generate(info, config)
+                                persona_data[entry_id] = self._fallback_generate(info, config, tier=tier)
                         return persona_data
                 except Exception as e:
                     # Fallback to local generation on API failure
                     pass
 
-        # Default local/fallback generation if key is missing or API fails
+        # Default local/fallback generation if key is missing, API fails, or Basic tier is selected
         persona_data = {}
         for entry_id, info in field_map.items():
             config = persona_config.get(entry_id, {})
             if not config.get("enabled", True):
                 continue
-            persona_data[entry_id] = self._fallback_generate(info, config)
+            persona_data[entry_id] = self._fallback_generate(info, config, tier=tier)
         return persona_data
 
-    def _fallback_generate(self, info, config):
+    def _fallback_generate(self, info, config, tier="Basic"):
         label = info["label"].lower()
         options = info["options"]
         custom_values = config.get("values", [])
         
+        # If it is Basic Tier and there are no standard options, treat as open-ended and return empty
+        if tier == "Basic" and not options:
+            return ""
+            
         if custom_values:
             return random.choice(custom_values)
         elif options:
             return random.choice(options)
         elif "email" in label:
+            if tier == "Basic":
+                return ""
             return f"tester_{random.randint(100, 999)}@gmail.com"
         else:
+            if tier == "Basic":
+                return ""
             return f"Insight {random.randint(10, 99)}"
 
     def submit(self, project_name, payload, headers):

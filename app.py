@@ -88,20 +88,144 @@ with tab_run:
     elif not current_proj.get("personas"):
         st.warning("⚠️ Create persona groups in the 'Persona Lab' first.")
     else:
+        # Enforce UMS student email validation (Accountability Gate)
+        st.subheader("🎓 1. Accountability Gate")
+        student_email = st.text_input("Enter your official UMS Email Address (@student.ums.edu.my or @ums.edu.my)", placeholder="e.g. name@student.ums.edu.my")
+        email_valid = False
+        if student_email:
+            if "ums.edu.my" in student_email.lower().strip():
+                st.success("✅ Email verified: Official UMS domain.")
+                email_valid = True
+            else:
+                st.error("❌ Email invalid: Must be a UMS domain (containing 'ums.edu.my').")
+        else:
+            st.info("💡 Please enter your student email to proceed.")
+
+        st.markdown("---")
+
+        # Tier Selector Toggles
+        st.subheader("⚖️ 2. Tier Selection")
+        tier = st.radio(
+            "Choose execution tier:",
+            options=["Basic Tier (RM1.50) - Quantitative Only", "Premium Tier (RM3.00) - Context Answers (Requires Gemini AI)"],
+            help="Basic Tier only fills quantitative fields (radio buttons, ratings, scale, checkbox). Premium Tier uses Gemini AI to generate realistic open-ended responses."
+        )
+        is_premium = "Premium" in tier
+        selected_tier = "Premium" if is_premium else "Basic"
+
+        st.markdown("---")
+
+        # Context & Baseline Uploader (Premium Only)
+        baseline_responses = None
+        study_context = ""
+        baseline_valid = True
+        
+        if is_premium:
+            st.subheader("📝 3. Context & Human Baselines")
+            study_context = st.text_area(
+                "Study Context / Guidelines", 
+                placeholder="Describe your research topic, context, or guidelines (e.g., 'A study on UMS student transport challenges and campus shuttle bus arrival delay stress...')"
+            )
+            
+            baseline_file = st.file_uploader(
+                "Upload Baseline Real Human Responses (.txt or .csv)",
+                type=["txt", "csv"],
+                help="Provide a text file (one response per line) or a CSV file containing 10 to 50 real responses to guide open-ended generation."
+            )
+            
+            if baseline_file:
+                success, parsed_res = st.session_state.engine.parse_baseline_responses(baseline_file.read(), baseline_file.name)
+                if success:
+                    baseline_responses = parsed_res
+                    st.success(f"✅ Baseline parsed successfully! Found {len(baseline_responses)} human responses.")
+                    with st.expander("🔍 Preview Baseline Data"):
+                        st.write(baseline_responses)
+                else:
+                    st.error(f"❌ Error: {parsed_res}")
+                    baseline_valid = False
+            else:
+                st.warning("⚠️ Human baseline responses are required for Premium Tier context-aware generation (Minimum 10).")
+                baseline_valid = False
+                
+            st.markdown("---")
+
+        # Dispatch Configuration
+        st.subheader("⚙️ 4. Run Configuration")
         col_s1, col_s2 = st.columns(2)
         with col_s1:
             flavor = st.selectbox("Select Persona Group", list(current_proj["personas"].keys()))
-            limit = st.slider("Submissions", 1, 100, 3)
+            limit = st.slider("Submissions (Max 50 per transaction)", 1, 50, 3)
         with col_s2:
             delay = st.slider("Min Delay (sec)", 1, 10, 3)
+
+        st.markdown("---")
+
+        # Payment Interface Box
+        st.subheader("💳 5. Payment Verification")
+        st.write("Scan the DuitNow QR code below to complete the transaction.")
+        
+        pay_col1, pay_col2 = st.columns([1, 1.5])
+        with pay_col1:
+            import os
+            if os.path.exists("duitnow_qr_code.png"):
+                st.image("duitnow_qr_code.png", caption="UMS Student DuitNow QR Code", width=260)
+            else:
+                st.error("DuitNow QR Code asset missing from workspace!")
+        
+        with pay_col2:
+            price = "RM3.00" if is_premium else "RM1.50"
+            st.markdown(f"#### Amount Due: **{price}**")
+            st.markdown(
+                "1. Scan the QR code on the left to make your payment.\n"
+                "2. Upload a screenshot or PDF of the receipt/transaction below.\n"
+                "3. Once the receipt is uploaded, the execution button will unlock."
+            )
+            receipt_file = st.file_uploader(
+                "Upload Payment Receipt screenshot/file", 
+                type=["png", "jpg", "jpeg", "pdf"],
+                key="receipt_uploader"
+            )
+
+        st.markdown("---")
+
+        # Submission Check
+        ready_to_submit = False
+        if email_valid and receipt_file:
+            if not is_premium or (is_premium and baseline_valid):
+                ready_to_submit = True
+                
+        # Main execution button locked until conditions are met
+        if not ready_to_submit:
+            st.info("🔒 The dispatch button is locked. Please enter a valid UMS email, configure necessary baseline data (Premium only), and upload your transaction receipt.")
             
-        if st.button("🚀 Execute Run"):
+        execute_button = st.button(
+            "🚀 Execute Run", 
+            disabled=not ready_to_submit,
+            help="Unlocks after email validation, human baseline upload (for Premium), and receipt verification."
+        )
+
+        if execute_button:
+            # First, save receipt
+            receipt_bytes = receipt_file.getvalue()
+            saved_path = st.session_state.engine.save_receipt(student_email, receipt_file.name, receipt_bytes)
+            st.info(f"💾 Receipt saved successfully to: `{saved_path}`")
+            
+            # Start run
             progress = st.progress(0)
             status = st.empty()
             success_count = 0
             for i in range(limit):
                 status.text(f"Running Persona {i+1}/{limit}...")
-                persona = st.session_state.engine.generate_persona(active_project, flavor)
+                
+                # Pass Premium context parameters
+                persona = st.session_state.engine.generate_persona(
+                    active_project, 
+                    flavor,
+                    tier=selected_tier,
+                    baseline_responses=baseline_responses,
+                    additional_context=study_context
+                )
+                
                 headers = {"User-Agent": random.choice(st.session_state.engine.user_agents)}
                 success, message, debug_info = st.session_state.engine.submit(active_project, persona, headers)
                 if success:
@@ -115,6 +239,7 @@ with tab_run:
                     break
                 progress.progress((i + 1) / limit)
                 time.sleep(random.uniform(delay, delay + 2))
+                
             if success_count > 0:
                 st.balloons()
                 st.success(f"Successfully recorded {success_count} responses.")
