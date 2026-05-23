@@ -81,8 +81,22 @@ with tab_setup:
         if form_url:
             with st.spinner("Scraping metadata..."):
                 success, result = st.session_state.engine.scrape_form(active_project, form_url)
-                if success: st.rerun()
-                else: st.error(result)
+                if success:
+                    st.success(f"✅ Form scraped successfully! Extracted {len(result)} fields.")
+                else: 
+                    st.error(result)
+                    
+    if current_proj.get("field_map"):
+        st.markdown("---")
+        st.subheader("📋 Detected Form Fields")
+        st.info("These fields were successfully scraped. Head over to the **Persona Lab** to configure responses for them.")
+        for k, v in current_proj["field_map"].items():
+            req_tag = "*(Required)*" if v.get("required") else ""
+            st.markdown(f"- **{v['label']}** {req_tag}")
+            if v.get("options"):
+                st.caption(f"  Options: {', '.join(v['options'])}")
+            else:
+                st.caption("  *Open-ended question*")
 
 with tab_run:
     st.header("Synthetic Dispatch")
@@ -449,4 +463,4 @@ with tab_admin:
                     )
 
 st.markdown("---")
-st.caption("Developed for Technopreneurship | UMS")
+st.caption("Developed for UMS")

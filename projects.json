@@ -101,8 +101,7 @@
     "re:AI": {
         "url": "https://docs.google.com/forms/d/e/1FAIpQLSdHfDgHIu1FcGgLoH8LRwyyQRFvS_KwJDGtMcn6OcJhMgPDUA/viewform",
         "field_map": {
-            "whatisyourcurrentrel": {
-                "id": "entry.1789545951",
+            "entry.1789545951": {
                 "label": "What is your current relationship with property?",
                 "options": [
                     "I am actively looking to buy a home",
@@ -110,10 +109,10 @@
                     "I am a property investor",
                     "I work in real estate (agent/developer/bank)",
                     "I have no current interest in property"
-                ]
+                ],
+                "required": 1
             },
-            "whatisyouragerange": {
-                "id": "entry.652391570",
+            "entry.652391570": {
                 "label": "What is your age range?",
                 "options": [
                     "Under 25",
@@ -121,10 +120,10 @@
                     "35\u201344",
                     "45\u201354",
                     "55 and above"
-                ]
+                ],
+                "required": 1
             },
-            "whichstatedoyoucurre": {
-                "id": "entry.272108027",
+            "entry.272108027": {
                 "label": "Which state do you currently live in?",
                 "options": [
                     "Johor",
@@ -143,10 +142,10 @@
                     "W.P. Kuala Lumpur",
                     "W.P. Labuan",
                     "W.P. Putrajaya"
-                ]
+                ],
+                "required": 1
             },
-            "whatisyourapproximat": {
-                "id": "entry.575619974",
+            "entry.575619974": {
                 "label": "What is your approximate household income per month?",
                 "options": [
                     "Below RM3,000",
@@ -154,10 +153,10 @@
                     "RM6,000\u2013RM9,999",
                     "RM10,000\u2013RM14,999",
                     "RM15,000 and above"
-                ]
+                ],
+                "required": 1
             },
-            "whensearchingforprop": {
-                "id": "entry.70304254",
+            "entry.70304254": {
                 "label": "When searching for property, how overwhelmed do you feel by\nthe amount of information available?",
                 "options": [
                     "1",
@@ -165,20 +164,20 @@
                     "3",
                     "4",
                     "5"
-                ]
+                ],
+                "required": 1
             },
-            "haveyoueverfeltunsur": {
-                "id": "entry.118530096",
+            "entry.118530096": {
                 "label": "Have you ever felt unsure whether a property developer could be trusted?",
                 "options": [
                     "Yes, it was a major concern",
                     "Yes, but it was a minor concern",
                     "No, I generally trust developers",
                     "I've never thought about it"
-                ]
+                ],
+                "required": 1
             },
-            "whatareyourbiggestfe": {
-                "id": "entry.1804506916",
+            "entry.1804506916": {
                 "label": "What are your biggest fears when buying property in Malaysia?",
                 "options": [
                     "Developer abandoning the project (\"sick project\")",
@@ -189,20 +188,20 @@
                     "Being misled by the sales agent",
                     "Not knowing if the location will grow in value",
                     "Flood or environmental risk"
-                ]
+                ],
+                "required": 1
             },
-            "haveyouorsomeoneyouk": {
-                "id": "entry.1484755690",
+            "entry.1484755690": {
                 "label": "Have you or someone you know ever been affected by a\nproblematic property developer or project?",
                 "options": [
                     "Yes, personally affected",
                     "Yes, someone I know was affected",
                     "No, but I've heard about it",
                     "No, never"
-                ]
+                ],
+                "required": 1
             },
-            "beforebuyingproperty": {
-                "id": "entry.172347867",
+            "entry.172347867": {
                 "label": "Before buying property, how much time do you typically spend researching?",
                 "options": [
                     "Less than 1 month",
@@ -211,10 +210,10 @@
                     "6\u201312 months",
                     "More than a year",
                     "I have not bought property yet"
-                ]
+                ],
+                "required": 1
             },
-            "howusefulwouldthisto": {
-                "id": "entry.767032109",
+            "entry.767032109": {
                 "label": "  How useful would this tool be for your property decisions?  ",
                 "options": [
                     "1",
@@ -222,10 +221,10 @@
                     "3",
                     "4",
                     "5"
-                ]
+                ],
+                "required": 1
             },
-            "whichofthesereaifeat": {
-                "id": "entry.124504836",
+            "entry.124504836": {
                 "label": " Which of these re:AI features interests you the most? (Pick top 2)  ",
                 "options": [
                     "Reliability Score for developers (flags history of delays, abandoned projects)",
@@ -233,10 +232,10 @@
                     "Neighbourhood Growth Predictor (AI spots up-and-coming areas before prices rise)",
                     "Explainable AI \u2014 every score comes with a plain-English reason",
                     "Community Sentiment Feed (what real residents say, not marketing materials)"
-                ]
+                ],
+                "required": 1
             },
-            "whatwouldmakeyoumost": {
-                "id": "entry.712177088",
+            "entry.712177088": {
                 "label": "What would make you MOST trust an AI property tool? (Pick up to 2)  ",
                 "options": [
                     "It explains its reasoning clearly",
@@ -245,10 +244,10 @@
                     "Real users have reviewed and validated it",
                     "A licensed property professional backs it",
                     "I would not trust an AI for property decisions"
-                ]
+                ],
+                "required": 1
             },
-            "ifreaiwereavailablet": {
-                "id": "entry.1796075674",
+            "entry.1796075674": {
                 "label": "If re:AI were available today, how likely would you be to use it before your next property decision?  ",
                 "options": [
                     "1",
@@ -256,10 +255,10 @@
                     "3",
                     "4",
                     "5"
-                ]
+                ],
+                "required": 1
             },
-            "wouldyoubewillingtop": {
-                "id": "entry.901685938",
+            "entry.901685938": {
                 "label": "Would you be willing to pay for access to re:AI?  ",
                 "options": [
                     "Yes, I'd pay for a one-time report (per property)",
@@ -267,32 +266,33 @@
                     "Only if my real estate agent provided it as part of their service (B2B model)",
                     "No, I'd only use it if it were free",
                     "Not sure"
-                ]
+                ],
+                "required": 1
             },
-            "inyourownwordswhatis": {
-                "id": "entry.1140764828",
+            "entry.1140764828": {
                 "label": "In your own words, what is the ONE thing you wish you had known before making (or considering) a property purchase in Malaysia?  ",
-                "options": []
+                "options": [],
+                "required": 1
             },
-            "isthereanythingabout": {
-                "id": "entry.722088563",
+            "entry.722088563": {
                 "label": "Is there anything about AI-powered property tools that concerns you?  ",
-                "options": []
+                "options": [],
+                "required": 1
             },
-            "ifwebuildreaiwouldyo": {
-                "id": "entry.650125771",
+            "entry.650125771": {
                 "label": "If we build re:AI, would you like to be one of our first beta testers?  ",
                 "options": [
                     "Yes \u2014 notify me when it launches",
                     "Yes \u2014 I'd like to give feedback during development",
                     "No, but keep up the good work",
                     "No"
-                ]
+                ],
+                "required": 0
             },
-            "leaveyouremailifyoud": {
-                "id": "entry.1035970437",
+            "entry.1035970437": {
                 "label": "Leave your email if you'd like us to contact you.  ",
-                "options": []
+                "options": [],
+                "required": 0
             }
         },
         "personas": {
@@ -446,6 +446,482 @@
                     "values": []
                 }
             }
-        }
+        },
+        "pages": 0
+    },
+    "test": {
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSdHfDgHIu1FcGgLoH8LRwyyQRFvS_KwJDGtMcn6OcJhMgPDUA/viewform",
+        "field_map": {
+            "entry.1789545951": {
+                "label": "What is your current relationship with property?",
+                "options": [
+                    "I am actively looking to buy a home",
+                    "I own property and may buy again",
+                    "I am a property investor",
+                    "I work in real estate (agent/developer/bank)",
+                    "I have no current interest in property"
+                ],
+                "required": 1
+            },
+            "entry.652391570": {
+                "label": "What is your age range?",
+                "options": [
+                    "Under 25",
+                    "25\u201334",
+                    "35\u201344",
+                    "45\u201354",
+                    "55 and above"
+                ],
+                "required": 1
+            },
+            "entry.272108027": {
+                "label": "Which state do you currently live in?",
+                "options": [
+                    "Johor",
+                    "Kedah",
+                    "Kelantan",
+                    "Melaka",
+                    "Negeri Sembilan",
+                    "Pahang",
+                    "Perak",
+                    "Perlish",
+                    "Pulau Pinang",
+                    "Sabah",
+                    "Sarawak",
+                    "Selangor",
+                    "Terengganu",
+                    "W.P. Kuala Lumpur",
+                    "W.P. Labuan",
+                    "W.P. Putrajaya"
+                ],
+                "required": 1
+            },
+            "entry.575619974": {
+                "label": "What is your approximate household income per month?",
+                "options": [
+                    "Below RM3,000",
+                    "RM3,000\u2013RM5,999",
+                    "RM6,000\u2013RM9,999",
+                    "RM10,000\u2013RM14,999",
+                    "RM15,000 and above"
+                ],
+                "required": 1
+            },
+            "entry.70304254": {
+                "label": "When searching for property, how overwhelmed do you feel by\nthe amount of information available?",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.118530096": {
+                "label": "Have you ever felt unsure whether a property developer could be trusted?",
+                "options": [
+                    "Yes, it was a major concern",
+                    "Yes, but it was a minor concern",
+                    "No, I generally trust developers",
+                    "I've never thought about it"
+                ],
+                "required": 1
+            },
+            "entry.1804506916": {
+                "label": "What are your biggest fears when buying property in Malaysia?",
+                "options": [
+                    "Developer abandoning the project (\"sick project\")",
+                    "Overpaying for the property",
+                    "Legal complications (title, strata, bumiputera lot)",
+                    "Hidden defects or construction quality issues",
+                    "Neighbourhood declining in value after purchase",
+                    "Being misled by the sales agent",
+                    "Not knowing if the location will grow in value",
+                    "Flood or environmental risk"
+                ],
+                "required": 1
+            },
+            "entry.1484755690": {
+                "label": "Have you or someone you know ever been affected by a\nproblematic property developer or project?",
+                "options": [
+                    "Yes, personally affected",
+                    "Yes, someone I know was affected",
+                    "No, but I've heard about it",
+                    "No, never"
+                ],
+                "required": 1
+            },
+            "entry.172347867": {
+                "label": "Before buying property, how much time do you typically spend researching?",
+                "options": [
+                    "Less than 1 month",
+                    "1\u20133 months",
+                    "3\u20136 months",
+                    "6\u201312 months",
+                    "More than a year",
+                    "I have not bought property yet"
+                ],
+                "required": 1
+            },
+            "entry.767032109": {
+                "label": "  How useful would this tool be for your property decisions?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.124504836": {
+                "label": " Which of these re:AI features interests you the most? (Pick top 2)  ",
+                "options": [
+                    "Reliability Score for developers (flags history of delays, abandoned projects)",
+                    "Fair Value Estimate (AI-adjusted price based on verified data, not just market average)",
+                    "Neighbourhood Growth Predictor (AI spots up-and-coming areas before prices rise)",
+                    "Explainable AI \u2014 every score comes with a plain-English reason",
+                    "Community Sentiment Feed (what real residents say, not marketing materials)"
+                ],
+                "required": 1
+            },
+            "entry.712177088": {
+                "label": "What would make you MOST trust an AI property tool? (Pick up to 2)  ",
+                "options": [
+                    "It explains its reasoning clearly",
+                    "It uses official government data (NAPIC, CCM, court records)",
+                    "It has been endorsed by a university or research body",
+                    "Real users have reviewed and validated it",
+                    "A licensed property professional backs it",
+                    "I would not trust an AI for property decisions"
+                ],
+                "required": 1
+            },
+            "entry.1796075674": {
+                "label": "If re:AI were available today, how likely would you be to use it before your next property decision?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.901685938": {
+                "label": "Would you be willing to pay for access to re:AI?  ",
+                "options": [
+                    "Yes, I'd pay for a one-time report (per property)",
+                    "Yes, I'd pay a monthly subscription for unlimited access",
+                    "Only if my real estate agent provided it as part of their service (B2B model)",
+                    "No, I'd only use it if it were free",
+                    "Not sure"
+                ],
+                "required": 1
+            },
+            "entry.1140764828": {
+                "label": "In your own words, what is the ONE thing you wish you had known before making (or considering) a property purchase in Malaysia?  ",
+                "options": [],
+                "required": 1
+            },
+            "entry.722088563": {
+                "label": "Is there anything about AI-powered property tools that concerns you?  ",
+                "options": [],
+                "required": 1
+            },
+            "entry.650125771": {
+                "label": "If we build re:AI, would you like to be one of our first beta testers?  ",
+                "options": [
+                    "Yes \u2014 notify me when it launches",
+                    "Yes \u2014 I'd like to give feedback during development",
+                    "No, but keep up the good work",
+                    "No"
+                ],
+                "required": 0
+            },
+            "entry.1035970437": {
+                "label": "Leave your email if you'd like us to contact you.  ",
+                "options": [],
+                "required": 0
+            }
+        },
+        "personas": {
+            "dsafdsagf": {
+                "entry.1789545951": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.652391570": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.272108027": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.575619974": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.70304254": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.118530096": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.1804506916": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.1484755690": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.172347867": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.767032109": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.124504836": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.712177088": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.1796075674": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.901685938": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.1140764828": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.722088563": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.650125771": {
+                    "enabled": true,
+                    "values": []
+                },
+                "entry.1035970437": {
+                    "enabled": true,
+                    "values": []
+                }
+            }
+        },
+        "pages": 0
+    },
+    "re:AI2": {
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSdHfDgHIu1FcGgLoH8LRwyyQRFvS_KwJDGtMcn6OcJhMgPDUA/viewform",
+        "field_map": {
+            "entry.1789545951": {
+                "label": "What is your current relationship with property?",
+                "options": [
+                    "I am actively looking to buy a home",
+                    "I own property and may buy again",
+                    "I am a property investor",
+                    "I work in real estate (agent/developer/bank)",
+                    "I have no current interest in property"
+                ],
+                "required": 1
+            },
+            "entry.652391570": {
+                "label": "What is your age range?",
+                "options": [
+                    "Under 25",
+                    "25\u201334",
+                    "35\u201344",
+                    "45\u201354",
+                    "55 and above"
+                ],
+                "required": 1
+            },
+            "entry.272108027": {
+                "label": "Which state do you currently live in?",
+                "options": [
+                    "Johor",
+                    "Kedah",
+                    "Kelantan",
+                    "Melaka",
+                    "Negeri Sembilan",
+                    "Pahang",
+                    "Perak",
+                    "Perlish",
+                    "Pulau Pinang",
+                    "Sabah",
+                    "Sarawak",
+                    "Selangor",
+                    "Terengganu",
+                    "W.P. Kuala Lumpur",
+                    "W.P. Labuan",
+                    "W.P. Putrajaya"
+                ],
+                "required": 1
+            },
+            "entry.575619974": {
+                "label": "What is your approximate household income per month?",
+                "options": [
+                    "Below RM3,000",
+                    "RM3,000\u2013RM5,999",
+                    "RM6,000\u2013RM9,999",
+                    "RM10,000\u2013RM14,999",
+                    "RM15,000 and above"
+                ],
+                "required": 1
+            },
+            "entry.70304254": {
+                "label": "When searching for property, how overwhelmed do you feel by\nthe amount of information available?",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.118530096": {
+                "label": "Have you ever felt unsure whether a property developer could be trusted?",
+                "options": [
+                    "Yes, it was a major concern",
+                    "Yes, but it was a minor concern",
+                    "No, I generally trust developers",
+                    "I've never thought about it"
+                ],
+                "required": 1
+            },
+            "entry.1804506916": {
+                "label": "What are your biggest fears when buying property in Malaysia?",
+                "options": [
+                    "Developer abandoning the project (\"sick project\")",
+                    "Overpaying for the property",
+                    "Legal complications (title, strata, bumiputera lot)",
+                    "Hidden defects or construction quality issues",
+                    "Neighbourhood declining in value after purchase",
+                    "Being misled by the sales agent",
+                    "Not knowing if the location will grow in value",
+                    "Flood or environmental risk"
+                ],
+                "required": 1
+            },
+            "entry.1484755690": {
+                "label": "Have you or someone you know ever been affected by a\nproblematic property developer or project?",
+                "options": [
+                    "Yes, personally affected",
+                    "Yes, someone I know was affected",
+                    "No, but I've heard about it",
+                    "No, never"
+                ],
+                "required": 1
+            },
+            "entry.172347867": {
+                "label": "Before buying property, how much time do you typically spend researching?",
+                "options": [
+                    "Less than 1 month",
+                    "1\u20133 months",
+                    "3\u20136 months",
+                    "6\u201312 months",
+                    "More than a year",
+                    "I have not bought property yet"
+                ],
+                "required": 1
+            },
+            "entry.767032109": {
+                "label": "  How useful would this tool be for your property decisions?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.124504836": {
+                "label": " Which of these re:AI features interests you the most? (Pick top 2)  ",
+                "options": [
+                    "Reliability Score for developers (flags history of delays, abandoned projects)",
+                    "Fair Value Estimate (AI-adjusted price based on verified data, not just market average)",
+                    "Neighbourhood Growth Predictor (AI spots up-and-coming areas before prices rise)",
+                    "Explainable AI \u2014 every score comes with a plain-English reason",
+                    "Community Sentiment Feed (what real residents say, not marketing materials)"
+                ],
+                "required": 1
+            },
+            "entry.712177088": {
+                "label": "What would make you MOST trust an AI property tool? (Pick up to 2)  ",
+                "options": [
+                    "It explains its reasoning clearly",
+                    "It uses official government data (NAPIC, CCM, court records)",
+                    "It has been endorsed by a university or research body",
+                    "Real users have reviewed and validated it",
+                    "A licensed property professional backs it",
+                    "I would not trust an AI for property decisions"
+                ],
+                "required": 1
+            },
+            "entry.1796075674": {
+                "label": "If re:AI were available today, how likely would you be to use it before your next property decision?  ",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.901685938": {
+                "label": "Would you be willing to pay for access to re:AI?  ",
+                "options": [
+                    "Yes, I'd pay for a one-time report (per property)",
+                    "Yes, I'd pay a monthly subscription for unlimited access",
+                    "Only if my real estate agent provided it as part of their service (B2B model)",
+                    "No, I'd only use it if it were free",
+                    "Not sure"
+                ],
+                "required": 1
+            },
+            "entry.1140764828": {
+                "label": "In your own words, what is the ONE thing you wish you had known before making (or considering) a property purchase in Malaysia?  ",
+                "options": [],
+                "required": 1
+            },
+            "entry.722088563": {
+                "label": "Is there anything about AI-powered property tools that concerns you?  ",
+                "options": [],
+                "required": 1
+            },
+            "entry.650125771": {
+                "label": "If we build re:AI, would you like to be one of our first beta testers?  ",
+                "options": [
+                    "Yes \u2014 notify me when it launches",
+                    "Yes \u2014 I'd like to give feedback during development",
+                    "No, but keep up the good work",
+                    "No"
+                ],
+                "required": 0
+            },
+            "entry.1035970437": {
+                "label": "Leave your email if you'd like us to contact you.  ",
+                "options": [],
+                "required": 0
+            }
+        },
+        "personas": {},
+        "pages": 0
     }
 }

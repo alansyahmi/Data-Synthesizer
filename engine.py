@@ -37,7 +37,16 @@ class RiggingEngine:
 
     def sanitize_url(self, url):
         parsed = urlparse(url)
-        return urlunparse((parsed.scheme, parsed.netloc, parsed.path, '', '', ''))
+        path = parsed.path
+        if 'docs.google.com/forms' in url:
+            if path.endswith('/edit') or path.endswith('/prefill'):
+                path = path.replace('/edit', '/viewform').replace('/prefill', '/viewform')
+            elif not path.endswith('/viewform') and not path.endswith('/formResponse'):
+                if path.endswith('/'):
+                    path += 'viewform'
+                else:
+                    path += '/viewform'
+        return urlunparse((parsed.scheme, parsed.netloc, path, '', '', ''))
 
     def create_project(self, name, url=""):
         if name not in self.projects:
@@ -55,31 +64,46 @@ class RiggingEngine:
 
     def scrape_form(self, project_name, url):
         try:
-            clean_url = self.sanitize_url(url)
-            response = self.session.get(clean_url)
+            # First, just get the URL to resolve any redirects (like forms.gle)
+            response = self.session.get(url)
+            
+            # Now sanitize the final resolved URL
+            clean_url = self.sanitize_url(response.url)
+            
+            # If the sanitized URL changed (e.g. added /viewform), we should fetch again
+            if clean_url != response.url:
+                response = self.session.get(clean_url)
             
             # More robust data extraction
             match = re.search(r'FB_PUBLIC_LOAD_DATA_ = (.*?);', response.text, re.DOTALL)
             if not match: 
-                return False, "Could not find FB_PUBLIC_LOAD_DATA. Form might be private."
+                if '/d/e/' not in clean_url:
+                    return False, "Could not find form data. Please ensure you are using the public 'viewform' link (from the Send button), not the edit link."
+                return False, "Could not find FB_PUBLIC_LOAD_DATA. Form might be private or invalid."
             
             data = json.loads(match.group(1))
             
-            # Find the questions list (it can be in different indices)
-            questions = []
-            try:
-                # Common location
-                questions = data[1][1]
-            except:
-                # Fallback search
-                for item in data:
-                    if isinstance(item, list) and len(item) > 1:
-                        if isinstance(item[1], list) and len(item[1]) > 0:
-                            questions = item[1]
-                            break
+            # Recursive search for the questions array
+            # A valid questions array is a list of lists, where each inner list has >= 4 elements:
+            # item[0] is int (id), item[1] is string (title), item[3] is int (type)
+            def find_questions(node):
+                if isinstance(node, list):
+                    # check if node is the questions array
+                    if len(node) > 0 and isinstance(node[0], list) and len(node[0]) >= 4:
+                        try:
+                            if isinstance(node[0][0], int) and isinstance(node[0][1], str) and isinstance(node[0][3], int):
+                                return node
+                        except: pass
+                    # recurse
+                    for child in node:
+                        res = find_questions(child)
+                        if res: return res
+                return None
+
+            questions = find_questions(data)
             
             if not questions:
-                return False, "Found form data but no questions detected."
+                return False, "Found form data but could not locate the questions array. Form structure might be unsupported."
 
             # Page Count detection
             pages_match = re.search(r'\[\[\d+,null,null,null,(\d+)\]', response.text)
@@ -88,23 +112,51 @@ class RiggingEngine:
             field_map = {}
             for q in questions:
                 try:
-                    # q[1] is label, q[4][0][0] is entry_id
+                    if not isinstance(q, list) or len(q) < 5 or q[4] is None:
+                        continue
+                        
                     label = q[1]
+                    q_type = q[3] # 0: short, 1: para, 2: radio, 3: dropdown, 4: checkbox, 5: scale, 7: grid
+                    
+                    # Handle Grid questions (Type 7) which have nested rows
+                    if q_type == 7:
+                        # q[4][0] is usually a list of rows
+                        if isinstance(q[4][0], list):
+                            for row in q[4][0]:
+                                if isinstance(row, list) and len(row) > 0:
+                                    entry_id = row[0]
+                                    row_label = f"{label} [{row[3][0]}]" if len(row) > 3 and row[3] else label
+                                    
+                                    # Extract columns as options from q[4][1]
+                                    options = []
+                                    if len(q[4]) > 1 and isinstance(q[4][1], list):
+                                        options = [col[0] for col in q[4][1] if isinstance(col, list) and len(col) > 0]
+                                        
+                                    key = f"entry.{entry_id}"
+                                    field_map[key] = {"label": row_label, "options": options, "required": False}
+                        continue
+                    
+                    # Standard questions
                     entry_id = q[4][0][0]
                     required = q[4][0][2] if len(q[4][0]) > 2 else False
                     
                     options = []
                     # Check multiple locations for options (Radio/Checkbox)
                     if len(q[4][0]) > 1 and q[4][0][1]:
-                        options = [opt[0] for opt in q[4][0][1]]
+                        options = [opt[0] for opt in q[4][0][1] if isinstance(opt, list) and len(opt) > 0]
                     # Check for Linear Scale
                     elif len(q[4][0]) > 3 and q[4][0][3]:
                         options = [str(i) for i in range(1, 6)]
                     
                     key = f"entry.{entry_id}"
                     field_map[key] = {"label": label, "options": options, "required": required}
-                except: continue
+                except Exception as e: 
+                    # Optionally log e, but continue to not break the whole form
+                    continue
             
+            if not field_map:
+                return False, "Scraped form successfully, but no compatible input fields were found. The form might be empty or using an unsupported layout."
+
             self.projects[project_name]["url"] = clean_url
             self.projects[project_name]["field_map"] = field_map
             self.projects[project_name]["pages"] = pages
