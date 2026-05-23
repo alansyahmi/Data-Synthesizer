@@ -25,6 +25,9 @@ st.markdown("""
 if 'engine' not in st.session_state:
     st.session_state.engine = RiggingEngine()
 
+if 'uploader_id' not in st.session_state:
+    st.session_state.uploader_id = 0
+
 # SIDEBAR
 with st.sidebar:
     st.title("🏢 Workspace")
@@ -69,7 +72,7 @@ with st.sidebar:
 # MAIN
 st.title(f"🚀 {active_project}")
 current_proj = st.session_state.engine.projects[active_project]
-tab_setup, tab_run, tab_lab = st.tabs(["⚙️ Setup", "⚡ Dispatcher", "🧪 Persona Lab"])
+tab_setup, tab_run, tab_lab, tab_admin = st.tabs(["⚙️ Setup", "⚡ Dispatcher", "🧪 Persona Lab", "🔑 Admin Panel"])
 
 with tab_setup:
     st.header("Form Configuration")
@@ -90,7 +93,11 @@ with tab_run:
     else:
         # Enforce UMS student email validation (Accountability Gate)
         st.subheader("🎓 1. Accountability Gate")
-        student_email = st.text_input("Enter your official UMS Email Address (@student.ums.edu.my or @ums.edu.my)", placeholder="e.g. name@student.ums.edu.my")
+        student_email = st.text_input(
+            "Enter your official UMS Email Address (@student.ums.edu.my or @ums.edu.my)", 
+            placeholder="e.g. name@student.ums.edu.my",
+            key=f"email_input_{st.session_state.uploader_id}"
+        )
         email_valid = False
         if student_email:
             if "ums.edu.my" in student_email.lower().strip():
@@ -130,9 +137,55 @@ with tab_run:
             baseline_file = st.file_uploader(
                 "Upload Baseline Real Human Responses (.txt or .csv)",
                 type=["txt", "csv"],
-                help="Provide a text file (one response per line) or a CSV file containing 10 to 50 real responses to guide open-ended generation."
+                help="Provide a text file (one response per line) or a CSV file containing 10 to 50 real responses to guide open-ended generation.",
+                key=f"baseline_uploader_{st.session_state.uploader_id}"
             )
             
+            # Baseline templates for QoL downloads
+            txt_template = (
+                "Sangat lambat, bas selalu lambat sampai ke perhentian.\n"
+                "Bas tidak cukup, terpaksa beratur panjang setiap pagi.\n"
+                "Shuttle bus UMS kurang selesa dan tiada aircond.\n"
+                "Pemandu bas memandu secara berbahaya kerana kejar masa.\n"
+                "Kawasan menunggu bas terlalu panas dan tiada teduhan.\n"
+                "Laluan bas UMS tidak efisien, membuang masa pelajar.\n"
+                "Kekerapan bas pada waktu puncak amat mengecewakan.\n"
+                "Pernah terlewat menduduki peperiksaan sebab bas rosak.\n"
+                "Tambang bas kampus patut dimansuhkan terus.\n"
+                "Sistem penjejakan GPS bas tidak berfungsi dengan baik."
+            )
+            csv_template = (
+                "response\n"
+                "\"Sangat lambat, bas selalu lambat sampai ke perhentian.\"\n"
+                "\"Bas tidak cukup, terpaksa beratur panjang setiap pagi.\"\n"
+                "\"Shuttle bus UMS kurang selesa dan tiada aircond.\"\n"
+                "\"Pemandu bas memandu secara berbahaya kerana kejar masa.\"\n"
+                "\"Kawasan menunggu bas terlalu panas dan tiada teduhan.\"\n"
+                "\"Laluan bas UMS tidak efisien, membuang masa pelajar.\"\n"
+                "\"Kekerapan bas pada waktu puncak amat mengecewakan.\"\n"
+                "\"Pernah terlewat menduduki peperiksaan sebab bas rosak.\"\n"
+                "\"Tambang bas kampus patut dimansuhkan terus.\"\n"
+                "\"Sistem penjejakan GPS bas tidak berfungsi dengan baik.\""
+            )
+            
+            with st.expander("📥 Get Sample Baseline Templates"):
+                st.write("Use these templates to check correct baseline upload formatting:")
+                d_col1, d_col2 = st.columns(2)
+                with d_col1:
+                    st.download_button(
+                        label="Download TXT Template",
+                        data=txt_template,
+                        file_name="ums_baseline_template.txt",
+                        mime="text/plain"
+                    )
+                with d_col2:
+                    st.download_button(
+                        label="Download CSV Template",
+                        data=csv_template,
+                        file_name="ums_baseline_template.csv",
+                        mime="text/csv"
+                    )
+
             if baseline_file:
                 success, parsed_res = st.session_state.engine.parse_baseline_responses(baseline_file.read(), baseline_file.name)
                 if success:
@@ -183,8 +236,17 @@ with tab_run:
             receipt_file = st.file_uploader(
                 "Upload Payment Receipt screenshot/file", 
                 type=["png", "jpg", "jpeg", "pdf"],
-                key="receipt_uploader"
+                key=f"receipt_uploader_{st.session_state.uploader_id}"
             )
+            if receipt_file:
+                file_extension = receipt_file.name.split('.')[-1].lower()
+                if file_extension in ["png", "jpg", "jpeg"]:
+                    try:
+                        st.image(receipt_file, caption="Receipt Preview", width=220)
+                    except Exception:
+                        st.warning("⚠️ Could not render receipt image preview. The uploaded file contains invalid image data.")
+                else:
+                    st.success(f"📄 Receipt file '{receipt_file.name}' ready.")
 
         st.markdown("---")
 
@@ -198,11 +260,18 @@ with tab_run:
         if not ready_to_submit:
             st.info("🔒 The dispatch button is locked. Please enter a valid UMS email, configure necessary baseline data (Premium only), and upload your transaction receipt.")
             
-        execute_button = st.button(
-            "🚀 Execute Run", 
-            disabled=not ready_to_submit,
-            help="Unlocks after email validation, human baseline upload (for Premium), and receipt verification."
-        )
+        # Action Buttons Layout
+        btn_col1, btn_col2 = st.columns([4, 1])
+        with btn_col1:
+            execute_button = st.button(
+                "🚀 Execute Run", 
+                disabled=not ready_to_submit,
+                help="Unlocks after email validation, human baseline upload (for Premium), and receipt verification."
+            )
+        with btn_col2:
+            if st.button("🧹 Clear Form State"):
+                st.session_state.uploader_id += 1
+                st.rerun()
 
         if execute_button:
             # First, save receipt
@@ -294,6 +363,90 @@ with tab_lab:
                     st.session_state.engine.save_persona(active_project, p_name, new_response_map)
                     st.success(f"Persona Group '{p_name}' saved!")
                     st.rerun()
+
+with tab_admin:
+    st.header("🔑 Admin Panel")
+    
+    # Retrieve Admin Password from secrets
+    correct_pass = None
+    try:
+        correct_pass = st.secrets.get("ADMIN_PASSWORD")
+    except Exception:
+        pass
+        
+    if not correct_pass:
+        st.warning("⚠️ Admin Password is not configured. Please add `ADMIN_PASSWORD = \"yourpassword\"` to `.streamlit/secrets.toml` to access this panel.")
+    else:
+        admin_pass_input = st.text_input("Enter Admin Password", type="password", key="admin_password_input_field")
+        if admin_pass_input == correct_pass:
+            st.success("🔓 Access Granted.")
+            st.subheader("📊 Transaction Logs & Receipts")
+            
+            import os
+            import datetime
+            
+            if not os.path.exists("receipts") or not os.listdir("receipts"):
+                st.info("No transaction receipts uploaded yet.")
+            else:
+                files = os.listdir("receipts")
+                logs = []
+                for idx, fname in enumerate(files):
+                    parts = fname.split('_', 2)
+                    if len(parts) == 3:
+                        tstamp, email, orig_name = parts
+                        try:
+                            date_str = datetime.datetime.fromtimestamp(int(tstamp)).strftime('%Y-%m-%d %H:%M:%S')
+                        except:
+                            date_str = "Unknown"
+                    else:
+                        date_str = "Unknown"
+                        email = "Unknown"
+                        orig_name = fname
+                        
+                    logs.append({
+                        "No": idx + 1,
+                        "Timestamp": date_str,
+                        "Student Email": email,
+                        "File Name": orig_name,
+                        "System Path": os.path.join("receipts", fname)
+                    })
+                
+                # Render table using markdown table
+                st.markdown("| No | Timestamp | Student Email | File Name |")
+                st.markdown("| --- | --- | --- | --- |")
+                for log in logs:
+                    st.markdown(f"| {log['No']} | {log['Timestamp']} | {log['Student Email']} | {log['File Name']} |")
+                
+                st.markdown("---")
+                st.subheader("🔍 Receipt File Viewer")
+                selected_log_idx = st.selectbox(
+                    "Select Receipt to Inspect", 
+                    options=range(len(logs)), 
+                    format_func=lambda i: f"#{i+1} - {logs[i]['Student Email']} ({logs[i]['Timestamp']})"
+                )
+                
+                selected_log = logs[selected_log_idx]
+                r_path = selected_log["System Path"]
+                
+                if os.path.exists(r_path):
+                    with open(r_path, "rb") as f:
+                        file_bytes = f.read()
+                    
+                    file_ext = selected_log["File Name"].split('.')[-1].lower()
+                    if file_ext in ["png", "jpg", "jpeg"]:
+                        try:
+                            st.image(file_bytes, caption=f"Receipt from {selected_log['Student Email']}", width=450)
+                        except Exception:
+                            st.warning("⚠️ Could not render receipt image preview. File may be corrupted or contains invalid image data.")
+                    else:
+                        st.info("📄 PDF or Binary file receipt. Click below to download and inspect.")
+                        
+                    st.download_button(
+                        label=f"Download {selected_log['File Name']}",
+                        data=file_bytes,
+                        file_name=selected_log["File Name"],
+                        mime="application/octet-stream"
+                    )
 
 st.markdown("---")
 st.caption("Developed for Technopreneurship | UMS")
