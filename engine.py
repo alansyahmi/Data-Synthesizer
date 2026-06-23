@@ -17,7 +17,9 @@ class RiggingEngine:
                 self.projects_file = "projects.json"
         else:
             self.projects_file = projects_file
+        self.banned_emails_file = "banned_emails.json"
         self.load_projects()
+        self.load_banned_emails()
         self.session = requests.Session()
         self.user_agents = [
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -34,6 +36,28 @@ class RiggingEngine:
     def save_all(self):
         with open(self.projects_file, 'w') as f:
             json.dump(self.projects, f, indent=4)
+            
+    def load_banned_emails(self):
+        if os.path.exists(self.banned_emails_file):
+            with open(self.banned_emails_file, 'r') as f:
+                self.banned_emails = set(json.load(f))
+        else:
+            self.banned_emails = set()
+            self.save_banned_emails()
+            
+    def save_banned_emails(self):
+        with open(self.banned_emails_file, 'w') as f:
+            json.dump(list(self.banned_emails), f, indent=4)
+            
+    def ban_email(self, email):
+        self.banned_emails.add(email.lower().strip())
+        self.save_banned_emails()
+        
+    def unban_email(self, email):
+        email_clean = email.lower().strip()
+        if email_clean in self.banned_emails:
+            self.banned_emails.remove(email_clean)
+            self.save_banned_emails()
 
     def sanitize_url(self, url):
         parsed = urlparse(url)
@@ -280,9 +304,22 @@ class RiggingEngine:
                 try:
                     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
                     headers = {"Content-Type": "application/json"}
+                    schema_properties = {}
+                    for spec in questions_specs:
+                        schema_properties[spec["key"]] = {"type": "STRING"}
+                        
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
-                        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1000}
+                        "generationConfig": {
+                            "temperature": 0.7, 
+                            "maxOutputTokens": 1000,
+                            "responseMimeType": "application/json",
+                            "responseSchema": {
+                                "type": "OBJECT",
+                                "properties": schema_properties,
+                                "required": list(schema_properties.keys())
+                            }
+                        }
                     }
                     res = requests.post(url, json=payload, headers=headers, timeout=10)
                     if res.status_code == 200:

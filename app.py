@@ -404,6 +404,33 @@ def render_admin_panel():
                     mime="application/octet-stream"
                 )
 
+            st.markdown("---")
+            st.markdown('<div style="font-size: 1.1rem; font-family: \'Kodchasan\', sans-serif; font-weight: 600; margin-top: 20px; margin-bottom: 10px;">◎ Access Control (Bans)</div>', unsafe_allow_html=True)
+            
+            b_col1, b_col2 = st.columns([3, 1])
+            with b_col1:
+                email_to_ban = st.text_input("Enter Email to Ban", key="ban_email_input", placeholder="user@example.com", label_visibility="collapsed")
+            with b_col2:
+                if st.button("Ban Email", type="primary", use_container_width=True):
+                    if email_to_ban:
+                        st.session_state.engine.ban_email(email_to_ban)
+                        queue_feedback("Email Banned", f"{email_to_ban} has been banned from using the dispatch system.", "success")
+                        st.rerun()
+                        
+            if st.session_state.engine.banned_emails:
+                st.markdown("**Currently Banned Emails:**")
+                for bem in sorted(list(st.session_state.engine.banned_emails)):
+                    col_email, col_unban = st.columns([4, 1])
+                    with col_email:
+                        st.code(bem)
+                    with col_unban:
+                        if st.button("Unban", key=f"unban_{bem}", use_container_width=True):
+                            st.session_state.engine.unban_email(bem)
+                            queue_feedback("Email Unbanned", f"{bem} can now use the dispatch system again.", "success")
+                            st.rerun()
+            else:
+                st.info("No emails are currently banned.")
+
 # MAIN
 st.markdown(
     f"""
@@ -544,22 +571,25 @@ elif step_bar == "03 DISPATCH":
     elif not current_proj.get("personas"):
         st.warning("◎ Create persona groups in the 'Persona Lab' first.")
     else:
-        # Enforce UMS student email validation (Accountability Gate)
+        # Enforce email validation (Accountability Gate)
         st.markdown('<div style="font-size: 1.1rem; font-family: \'Kodchasan\', sans-serif; font-weight: 600; margin-top: 20px; margin-bottom: 10px;">▸ 1. Accountability Gate</div>', unsafe_allow_html=True)
         student_email = st.text_input(
-            "Enter your official UMS Email Address (@student.ums.edu.my or @ums.edu.my)", 
-            placeholder="e.g. name@student.ums.edu.my",
+            "Enter your Email Address", 
+            placeholder="e.g. user@example.com",
             key=f"email_input_{st.session_state.uploader_id}"
         )
         email_valid = False
         if student_email:
-            if "ums.edu.my" in student_email.lower().strip():
-                st.success("◎ Email verified: Official UMS domain.")
+            import re
+            if student_email.lower().strip() in st.session_state.engine.banned_emails:
+                st.error("☍ Email invalid: This email address is banned from using the service.")
+            elif re.match(r"[^@]+@[^@]+\.[^@]+", student_email):
+                st.success("◎ Email verified.")
                 email_valid = True
             else:
-                st.error("☍ Email invalid: Must be a UMS domain (containing 'ums.edu.my').")
+                st.error("☍ Email invalid: Must be a valid email format.")
         else:
-            st.info("◎ Please enter your student email to proceed.")
+            st.info("◎ Please enter your email to proceed.")
 
         st.markdown("---")
 
@@ -584,7 +614,7 @@ elif step_bar == "03 DISPATCH":
             st.markdown('<div style="font-size: 1.1rem; font-family: \'Kodchasan\', sans-serif; font-weight: 600; margin-top: 20px; margin-bottom: 10px;">▸ 3. Context & Human Baselines</div>', unsafe_allow_html=True)
             study_context = st.text_area(
                 "Study Context / Guidelines", 
-                placeholder="Describe your research topic, context, or guidelines (e.g., 'A study on UMS student transport challenges and campus shuttle bus arrival delay stress...')"
+                placeholder="Describe your research topic, context, or guidelines (e.g., 'A study on customer satisfaction regarding the new software update...')"
             )
                     
             baseline_file = st.file_uploader(
@@ -596,29 +626,29 @@ elif step_bar == "03 DISPATCH":
                     
             # Baseline templates for QoL downloads
             txt_template = (
-                "Sangat lambat, bas selalu lambat sampai ke perhentian.\n"
-                "Bas tidak cukup, terpaksa beratur panjang setiap pagi.\n"
-                "Shuttle bus UMS kurang selesa dan tiada aircond.\n"
-                "Pemandu bas memandu secara berbahaya kerana kejar masa.\n"
-                "Kawasan menunggu bas terlalu panas dan tiada teduhan.\n"
-                "Laluan bas UMS tidak efisien, membuang masa pelajar.\n"
-                "Kekerapan bas pada waktu puncak amat mengecewakan.\n"
-                "Pernah terlewat menduduki peperiksaan sebab bas rosak.\n"
-                "Tambang bas kampus patut dimansuhkan terus.\n"
-                "Sistem penjejakan GPS bas tidak berfungsi dengan baik."
+                "The product works okay but it's really hard to set up.\n"
+                "Customer service was completely unhelpful when I called.\n"
+                "I love the new design, it's very sleek and modern.\n"
+                "The subscription price is too high for what you get.\n"
+                "It crashes occasionally when I try to export data.\n"
+                "Highly recommended! Solved all my workflow problems.\n"
+                "The app is laggy on older phones, needs optimization.\n"
+                "I wish there was a dark mode option available.\n"
+                "Delivery was delayed by two weeks, very frustrating.\n"
+                "Best purchase I've made all year, completely worth it."
             )
             csv_template = (
                 "response\n"
-                "\"Sangat lambat, bas selalu lambat sampai ke perhentian.\"\n"
-                "\"Bas tidak cukup, terpaksa beratur panjang setiap pagi.\"\n"
-                "\"Shuttle bus UMS kurang selesa dan tiada aircond.\"\n"
-                "\"Pemandu bas memandu secara berbahaya kerana kejar masa.\"\n"
-                "\"Kawasan menunggu bas terlalu panas dan tiada teduhan.\"\n"
-                "\"Laluan bas UMS tidak efisien, membuang masa pelajar.\"\n"
-                "\"Kekerapan bas pada waktu puncak amat mengecewakan.\"\n"
-                "\"Pernah terlewat menduduki peperiksaan sebab bas rosak.\"\n"
-                "\"Tambang bas kampus patut dimansuhkan terus.\"\n"
-                "\"Sistem penjejakan GPS bas tidak berfungsi dengan baik.\""
+                "\"The product works okay but it's really hard to set up.\"\n"
+                "\"Customer service was completely unhelpful when I called.\"\n"
+                "\"I love the new design, it's very sleek and modern.\"\n"
+                "\"The subscription price is too high for what you get.\"\n"
+                "\"It crashes occasionally when I try to export data.\"\n"
+                "\"Highly recommended! Solved all my workflow problems.\"\n"
+                "\"The app is laggy on older phones, needs optimization.\"\n"
+                "\"I wish there was a dark mode option available.\"\n"
+                "\"Delivery was delayed by two weeks, very frustrating.\"\n"
+                "\"Best purchase I've made all year, completely worth it.\""
             )
                     
             with st.expander("⊞ Get Sample Baseline Templates"):
@@ -628,14 +658,14 @@ elif step_bar == "03 DISPATCH":
                     st.download_button(
                         label="Download TXT Template",
                         data=txt_template,
-                        file_name="ums_baseline_template.txt",
+                        file_name="baseline_template.txt",
                         mime="text/plain"
                     )
                 with d_col2:
                     st.download_button(
                         label="Download CSV Template",
                         data=csv_template,
-                        file_name="ums_baseline_template.csv",
+                        file_name="baseline_template.csv",
                         mime="text/csv"
                     )
 
@@ -711,7 +741,7 @@ elif step_bar == "03 DISPATCH":
                         
         # Main execution button locked until conditions are met
         if not ready_to_submit:
-            st.info("↗ The dispatch button is locked. Please enter a valid UMS email, configure necessary baseline data (Premium only), and upload your transaction receipt.")
+            st.info("↗ The dispatch button is locked. Please enter a valid email, configure necessary baseline data (Premium only), and upload your transaction receipt.")
                     
         # Action Buttons Layout
         btn_col1, btn_col2 = st.columns([4, 1])
