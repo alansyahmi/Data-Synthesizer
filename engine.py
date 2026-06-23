@@ -375,13 +375,14 @@ class RiggingEngine:
         options = info["options"]
         custom_values = config.get("values", [])
         
+        if custom_values:
+            return random.choice(custom_values)
+
         # If it is Basic Tier and there are no standard options, treat as open-ended and return empty
         if tier == "Basic" and not options:
             return ""
             
-        if custom_values:
-            return random.choice(custom_values)
-        elif options:
+        if options:
             return random.choice(options)
         elif "email" in label:
             if tier == "Basic":
