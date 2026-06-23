@@ -29,9 +29,50 @@ class RiggingEngine:
         if os.path.exists(self.projects_file):
             with open(self.projects_file, 'r') as f:
                 self.projects = json.load(f)
+            if self.migrate_legacy_projects():
+                self.save_all()
         else:
             self.projects = {"Default Project": {"url": "", "field_map": {}, "personas": {}, "pages": 0}}
             self.save_all()
+
+    def migrate_legacy_projects(self):
+        migrated_any = False
+        for project_name, project_data in self.projects.items():
+            field_map = project_data.get("field_map", {})
+            personas = project_data.get("personas", {})
+            if not field_map or not personas:
+                continue
+                
+            # Build mappings from slugified label to entry_id
+            slug_to_entry = {}
+            slug_letters_only = {}
+            for entry_id, field_info in field_map.items():
+                label = field_info.get("label", "")
+                slug1 = re.sub(r'[^a-zA-Z0-9]', '', label).lower()[:20]
+                slug2 = re.sub(r'[^a-z]', '', label.lower())[:20]
+                if slug1:
+                    slug_to_entry[slug1] = entry_id
+                if slug2:
+                    slug_letters_only[slug2] = entry_id
+                    
+            for persona_name, persona_config in personas.items():
+                migrated_config = {}
+                persona_changed = False
+                for key, val in list(persona_config.items()):
+                    if key.startswith("entry."):
+                        migrated_config[key] = val
+                    else:
+                        target_key = slug_to_entry.get(key) or slug_letters_only.get(key)
+                        if target_key:
+                            migrated_config[target_key] = val
+                            persona_changed = True
+                        else:
+                            migrated_config[key] = val
+                if persona_changed:
+                    project_data["personas"][persona_name] = migrated_config
+                    migrated_any = True
+        return migrated_any
+
 
     def save_all(self):
         with open(self.projects_file, 'w') as f:
@@ -305,8 +346,11 @@ class RiggingEngine:
                     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
                     headers = {"Content-Type": "application/json"}
                     schema_properties = {}
+                    key_map = {} # Maps safe key to original key
                     for spec in questions_specs:
-                        schema_properties[spec["key"]] = {"type": "STRING"}
+                        safe_key = spec["key"].replace(".", "_")
+                        schema_properties[safe_key] = {"type": "STRING"}
+                        key_map[safe_key] = spec["key"]
                         
                     payload = {
                         "contents": [{"parts": [{"text": prompt}]}],
@@ -341,7 +385,11 @@ class RiggingEngine:
                             if not config.get("enabled", True):
                                 continue
                             
-                            val = ai_data.get(entry_id)
+                            safe_key = entry_id.replace(".", "_")
+                            val = ai_data.get(safe_key)
+                            if val is None:
+                                val = ai_data.get(entry_id)
+                            
                             if val is not None:
                                 # Self-healing validation for options
                                 options = info["options"]

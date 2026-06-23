@@ -297,19 +297,19 @@
         },
         "personas": {
             "Young First-time Buyers": {
-                "whatisyourcurrentrel": {
+                "entry.1789545951": {
                     "enabled": true,
                     "values": [
                         "I am actively looking to buy a home"
                     ]
                 },
-                "whatisyouragerange": {
+                "entry.652391570": {
                     "enabled": true,
                     "values": [
                         "25\u201334"
                     ]
                 },
-                "whichstatedoyoucurre": {
+                "entry.272108027": {
                     "enabled": true,
                     "values": [
                         "Johor",
@@ -330,13 +330,13 @@
                         "W.P. Putrajaya"
                     ]
                 },
-                "whatisyourapproximat": {
+                "entry.575619974": {
                     "enabled": true,
                     "values": [
                         "RM3,000\u2013RM5,999"
                     ]
                 },
-                "whensearchingforprop": {
+                "entry.70304254": {
                     "enabled": true,
                     "values": [
                         "3",
@@ -344,7 +344,7 @@
                         "5"
                     ]
                 },
-                "haveyoueverfeltunsur": {
+                "entry.118530096": {
                     "enabled": true,
                     "values": [
                         "Yes, it was a major concern",
@@ -352,7 +352,7 @@
                         "I've never thought about it"
                     ]
                 },
-                "whatareyourbiggestfe": {
+                "entry.1804506916": {
                     "enabled": true,
                     "values": [
                         "Developer abandoning the project (\"sick project\")",
@@ -363,14 +363,14 @@
                         "Flood or environmental risk"
                     ]
                 },
-                "haveyouorsomeoneyouk": {
+                "entry.1484755690": {
                     "enabled": true,
                     "values": [
                         "No, but I've heard about it",
                         "No, never"
                     ]
                 },
-                "beforebuyingproperty": {
+                "entry.172347867": {
                     "enabled": true,
                     "values": [
                         "3\u20136 months",
@@ -379,7 +379,7 @@
                         "I have not bought property yet"
                     ]
                 },
-                "howusefulwouldthisto": {
+                "entry.767032109": {
                     "enabled": true,
                     "values": [
                         "3",
@@ -387,7 +387,7 @@
                         "5"
                     ]
                 },
-                "whichofthesereaifeat": {
+                "entry.124504836": {
                     "enabled": true,
                     "values": [
                         "Reliability Score for developers (flags history of delays, abandoned projects)",
@@ -397,7 +397,7 @@
                         "Community Sentiment Feed (what real residents say, not marketing materials)"
                     ]
                 },
-                "whatwouldmakeyoumost": {
+                "entry.712177088": {
                     "enabled": true,
                     "values": [
                         "It explains its reasoning clearly",
@@ -408,14 +408,14 @@
                         "I would not trust an AI for property decisions"
                     ]
                 },
-                "ifreaiwereavailablet": {
+                "entry.1796075674": {
                     "enabled": true,
                     "values": [
                         "4",
                         "5"
                     ]
                 },
-                "wouldyoubewillingtop": {
+                "entry.901685938": {
                     "enabled": true,
                     "values": [
                         "Yes, I'd pay for a one-time report (per property)",
@@ -423,25 +423,25 @@
                         "Not sure"
                     ]
                 },
-                "inyourownwordswhatis": {
+                "entry.1140764828": {
                     "enabled": true,
                     "values": [
                         "I wish I had known the true maintenance costs and sinking fund health."
                     ]
                 },
-                "isthereanythingabout": {
+                "entry.722088563": {
                     "enabled": true,
                     "values": [
                         "I worry that AI might be biased toward developers who provide more digital data."
                     ]
                 },
-                "ifwebuildreaiwouldyo": {
+                "entry.650125771": {
                     "enabled": true,
                     "values": [
                         "No, but keep up the good work"
                     ]
                 },
-                "leaveyouremailifyoud": {
+                "entry.1035970437": {
                     "enabled": false,
                     "values": []
                 }
