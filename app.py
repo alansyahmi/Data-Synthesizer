@@ -507,11 +507,29 @@ elif step_bar == "01 SETUP":
     col_input, col_btn = st.columns([5, 1])
     with col_input:
         form_url = st.text_input("Insert Google Form URL for extraction...", value=current_proj.get("url", ""), label_visibility="collapsed", placeholder="Insert Google Form URL for extraction...")
+        
+    with st.expander("◎ Advanced Request Settings (Cookies & Headers)"):
+        custom_cookie = st.text_area(
+            "Custom Cookie String",
+            value=current_proj.get("cookie_string", ""),
+            placeholder="Paste raw 'Cookie' header value from DevTools (e.g. __Secure-3PSID=...; HSID=...)"
+        )
+        custom_ua = st.text_input(
+            "Custom User-Agent String",
+            value=current_proj.get("user_agent", ""),
+            placeholder="e.g. Mozilla/5.0 (Windows NT 10.0; Win64; x64) ..."
+        )
+        
     with col_btn:
         if st.button("SCRAPE FORM ➔", type="primary", use_container_width=True):
             if form_url:
                 with st.spinner("Scraping metadata..."):
-                    success, result = st.session_state.engine.scrape_form(active_project, form_url)
+                    success, result = st.session_state.engine.scrape_form(
+                        active_project, 
+                        form_url,
+                        cookie_string=custom_cookie,
+                        user_agent=custom_ua
+                    )
                     if success:
                         field_count = len(result)
                         page_count = st.session_state.engine.projects[active_project].get("pages", 0)

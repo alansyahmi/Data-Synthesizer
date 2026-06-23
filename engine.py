@@ -100,6 +100,17 @@ class RiggingEngine:
             self.banned_emails.remove(email_clean)
             self.save_banned_emails()
 
+    def parse_cookie_string(self, cookie_string):
+        cookies = {}
+        if not cookie_string:
+            return cookies
+        for item in cookie_string.split(';'):
+            item = item.strip()
+            if '=' in item:
+                k, v = item.split('=', 1)
+                cookies[k.strip()] = v.strip()
+        return cookies
+
     def sanitize_url(self, url):
         parsed = urlparse(url)
         path = parsed.path
@@ -127,17 +138,24 @@ class RiggingEngine:
             return True
         return False
 
-    def scrape_form(self, project_name, url):
+    def scrape_form(self, project_name, url, cookie_string="", user_agent=""):
         try:
+            cookies = self.parse_cookie_string(cookie_string) if cookie_string else {}
+            headers = {}
+            if user_agent:
+                headers["User-Agent"] = user_agent
+            else:
+                headers["User-Agent"] = random.choice(self.user_agents)
+
             # First, just get the URL to resolve any redirects (like forms.gle)
-            response = self.session.get(url)
+            response = self.session.get(url, headers=headers, cookies=cookies)
             
             # Now sanitize the final resolved URL
             clean_url = self.sanitize_url(response.url)
             
             # If the sanitized URL changed (e.g. added /viewform), we should fetch again
             if clean_url != response.url:
-                response = self.session.get(clean_url)
+                response = self.session.get(clean_url, headers=headers, cookies=cookies)
             
             # More robust data extraction
             match = re.search(r'FB_PUBLIC_LOAD_DATA_ = (.*?);', response.text, re.DOTALL)
@@ -225,6 +243,8 @@ class RiggingEngine:
             self.projects[project_name]["url"] = clean_url
             self.projects[project_name]["field_map"] = field_map
             self.projects[project_name]["pages"] = pages
+            self.projects[project_name]["cookie_string"] = cookie_string
+            self.projects[project_name]["user_agent"] = user_agent
             self.save_all()
             return True, field_map
         except Exception as e:
@@ -450,8 +470,16 @@ class RiggingEngine:
         pages = proj.get("pages", 0)
         page_history = ",".join([str(i) for i in range(pages + 1)])
         
+        cookie_string = proj.get("cookie_string", "")
+        user_agent = proj.get("user_agent", "")
+        cookies = self.parse_cookie_string(cookie_string) if cookie_string else {}
+        
+        if user_agent:
+            headers = headers.copy() if headers else {}
+            headers["User-Agent"] = user_agent
+            
         try:
-            resp = self.session.get(url, headers=headers)
+            resp = self.session.get(url, headers=headers, cookies=cookies)
             fbzx_m = re.search(r'name="fbzx"\s+value="([^"]+)"', resp.text)
             if not fbzx_m: return False, "fbzx token missing. Google blocked the GET request.", {}
             fbzx = fbzx_m.group(1)
@@ -463,9 +491,14 @@ class RiggingEngine:
                 else:
                     form_payload.append((eid, str(val)))
             
-            post_headers = headers.copy()
+            post_headers = headers.copy() if headers else {}
             post_headers["Content-Type"] = "application/x-www-form-urlencoded"
-            res = self.session.post(form_url, data=form_payload, headers=post_headers)
+            post_headers["Referer"] = url
+            post_headers["Origin"] = "https://docs.google.com"
+            post_headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            post_headers["Accept-Language"] = "en-US,en;q=0.9"
+            
+            res = self.session.post(form_url, data=form_payload, headers=post_headers, cookies=cookies)
             
             if res.status_code == 200 and "recorded" in res.text.lower():
                 return True, "Success", {}
