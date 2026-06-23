@@ -417,9 +417,10 @@ def render_admin_panel():
                         queue_feedback("Email Banned", f"{email_to_ban} has been banned from using the dispatch system.", "success")
                         st.rerun()
                         
-            if st.session_state.engine.banned_emails:
+            banned_list = getattr(st.session_state.engine, 'banned_emails', set())
+            if banned_list:
                 st.markdown("**Currently Banned Emails:**")
-                for bem in sorted(list(st.session_state.engine.banned_emails)):
+                for bem in sorted(list(banned_list)):
                     col_email, col_unban = st.columns([4, 1])
                     with col_email:
                         st.code(bem)
@@ -581,7 +582,8 @@ elif step_bar == "03 DISPATCH":
         email_valid = False
         if student_email:
             import re
-            if student_email.lower().strip() in st.session_state.engine.banned_emails:
+            banned = getattr(st.session_state.engine, 'banned_emails', set())
+            if student_email.lower().strip() in banned:
                 st.error("☍ Email invalid: This email address is banned from using the service.")
             elif re.match(r"[^@]+@[^@]+\.[^@]+", student_email):
                 st.success("◎ Email verified.")
