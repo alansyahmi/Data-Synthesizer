@@ -923,5 +923,151 @@
         },
         "personas": {},
         "pages": 0
+    },
+    "ATO_Detection": {
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLScpte6njbHbuqJFIvk5LdX1V0QwU6rP3FEQpbk4--P8KZO2dA/viewform",
+        "field_map": {
+            "entry.1571269756": {
+                "label": "How would you describe your level of cybersecurity knowledge?",
+                "options": [
+                    "Coursework",
+                    "Club/Student org",
+                    "Hobbyist",
+                    "Professional Exposure"
+                ],
+                "required": 1
+            },
+            "entry.1787193802": {
+                "label": "Have you ever had an online account compromised directly affected by an account takeover attempt?",
+                "options": [
+                    "Yes",
+                    "No",
+                    "Unsure"
+                ],
+                "required": 1
+            },
+            "entry.1491968666": {
+                "label": "A real-time dashboard showing suspicious logins as they happen",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1401606896": {
+                "label": "The ability to open a flagged session and see its source IP, geographic location and device details",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1993960062": {
+                "label": "A clear  explanation of why a login was flagged (which signal contributed to the score)",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1321078433": {
+                "label": "Visual severity indicators that make high-risk sessions easy to spot at a glance",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.773878233": {
+                "label": "Adjusting at runtime how strict the system is when flagging risky logins",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1994521697": {
+                "label": "Labelling an alert as a true positive or false positive so the model can learn from it",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1146583957": {
+                "label": "Exporting alerts as a CSV file to share wih another team",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.829293860": {
+                "label": "Account and role management so different users have different access levels",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1950860796": {
+                "label": "A fast end-to-end response time (Under roughly one second from event to on-screen score)",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.1603609500": {
+                "label": "A clear,easy to understand interface,even at the cost of some advanced features",
+                "options": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                "required": 1
+            },
+            "entry.821533428": {
+                "label": "What single feature would matter most to you in a login anomaly detection tool and why?",
+                "options": [],
+                "required": 0
+            },
+            "entry.1628290967": {
+                "label": "Have you used a security or monitoring tool that you found particularly easy or frustrating to use? Briefly explain what made it so.",
+                "options": [],
+                "required": 0
+            }
+        },
+        "personas": {},
+        "pages": 0
     }
 }
